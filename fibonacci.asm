@@ -2,19 +2,17 @@ section .text
     global _start
 
 _start:
-    mov eax, 0      ; fib0 = 0
-    mov ebx, 1      ; fib1 = 1
-    mov ecx, 10     ; count 10 Fibonacci numbers
-    mov edx, 0      ; accumulator for sum (optional)
+    mov eax, 0      ; F(0)
+    mov ebx, 1      ; F(1)
+    mov ecx, 10     ; 10 steps to reach F(10)
 
-loop_fib:
-    add edx, eax    ; add current fib0 to sum
-    mov esi, eax    ; save fib0 temporarily
-    add eax, ebx    ; fib0 = fib0 + fib1 (next fib number)
-    mov ebx, esi    ; fib1 = previous fib0
-    dec ecx
-    jnz loop_fib
+fib_loop:
+    mov edx, eax    ; store old F(n-2) in EDX
+    add eax, ebx    ; F(n) = F(n-2) + F(n-1)
+    mov ebx, edx    ; update F(n-1) to previous F(n-2)
+    loop fib_loop   ; ECX -= 1, loop until ECX == 0
 
-    mov ebx, eax    ; **move final fib number into ebx for exit code**
+    ; EAX now holds F(10) = 55
+    mov ebx, eax    ; exit code = F(10)
     mov eax, 1      ; sys_exit
     int 0x80
