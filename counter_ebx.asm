@@ -2,13 +2,11 @@ section .text
     global _start
 
 _start:
-    mov ebx, 10        ; EBX will act as our counter
-    mov eax, 0         ; Just a dummy register to test loop
+    mov ebx, 0      ; EBX is the counter, start at 0
+label:
+    inc ebx         ; increment EBX
+    cmp ebx, 10     ; compare EBX to 10
+    jl label        ; loop if EBX < 10
 
-counter_loop:
-    inc eax            ; Increase EAX to simulate work being done
-    dec ebx            ; Decrement EBX manually
-    jnz counter_loop   ; If EBX ≠ 0, repeat the loop
-
-    mov eax, 1         ; syscall: exit
+    mov eax, 1      ; exit syscall
     int 0x80
